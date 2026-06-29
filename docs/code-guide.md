@@ -385,3 +385,16 @@ rein dev          # 监听 main.py,改了就自动重启
 | **M5** | scaffold / CLI | 一条命令起项目 |
 
 **贯穿始终的两条主线**:① **可序列化的状态(Session)+ 无状态的推进(loop)** —— 让暂停/恢复/压缩/中间件全都成立;② **机制进核心、实例走扩展、重依赖走 extras** —— 守住"极薄但生产级"。
+
+
+---
+
+### `src/rein/log.py` —— 结构化日志(生产排障用)
+
+生产环境出了问题,你得能查「agent 当时在干啥」。这个模块给框架加运行时日志(标准库 logging,零额外依赖)。
+
+- **默认闭嘴**:不调 `enable_logging()`,框架一声不吭(只挂 NullHandler)—— 库不该擅自往你的日志里喷。想看才一行打开:`enable_logging("INFO", json=True)`。
+- **结构化**:每条带 `trace_id`(串起一次运行的所有日志)、工具名、耗时、token,JSON 模式直接喂 ELK / Loki 按字段检索。
+- **脱敏**:工具参数 / 返回、API key、完整对话 —— 绝不进日志,只记「调了哪个工具、成没成、多久」。
+- **埋点在 `loop.arun` 一处**:`run started` → `tool done`(每个工具) → `run finished` / `circuit tripped` / `run interrupted`,最小侵入,其他函数没动。
+- **三层互补**:日志(运行时流水账) / `RunResult`(结果对象) / OTel(分布式追踪)。
