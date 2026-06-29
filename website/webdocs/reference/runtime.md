@@ -78,7 +78,7 @@ DockerRuntime(
     工具是宿主进程的 Python 函数,没法把函数对象塞进容器。DockerRuntime 用 `inspect.getsource` 取函数源码、在容器里 `python -c` 执行 —— **适合纯函数 + 标准库的工具**;依赖闭包 / 第三方库的需要自定义镜像,否则会得到清晰报错。
 
 !!! note "extras + 延迟 import"
-    `pip install "rein[docker]"`,且本机要有可用的 docker 守护进程。`docker` 只在真正执行时才 import。
+    `pip install "rein-agent[docker]"`,且本机要有可用的 docker 守护进程。`docker` 只在真正执行时才 import。
 
 ```python
 from rein import DockerRuntime

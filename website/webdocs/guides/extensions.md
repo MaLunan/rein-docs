@@ -63,7 +63,7 @@ from rein.loop import arun
 ```
 
 !!! warning "务实范围"
-    工具是宿主进程的 Python 函数,没法把函数对象塞进容器。DockerRuntime 用 `inspect.getsource` 取函数源码在容器里执行 —— **适合纯函数 + 标准库的工具**;依赖闭包/第三方库的需要自定义镜像。`docker` 走 extras(`pip install "rein[docker]"`),默认网络隔离 + 内存上限。
+    工具是宿主进程的 Python 函数,没法把函数对象塞进容器。DockerRuntime 用 `inspect.getsource` 取函数源码在容器里执行 —— **适合纯函数 + 标准库的工具**;依赖闭包/第三方库的需要自定义镜像。`docker` 走 extras(`pip install "rein-agent[docker]"`),默认网络隔离 + 内存上限。
 
 ## 插件发现
 

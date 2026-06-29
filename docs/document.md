@@ -9,7 +9,7 @@
 
 **六个里程碑全部落地,跑测试通过**:
 
-- `framework/src/rein/`(23 个模块):ir/config/session/result/tools、providers(base/mock/litellm/fallback)、
+- `src/rein/`(23 个模块):ir/config/session/result/tools、providers(base/mock/litellm/fallback)、
   runtime(base/local/docker)、circuit/loop/agent/middleware/compaction/otel/plugins/store/scaffold/cli。
 - `tests/`:20 个测试文件。
 - ✅ **验证结果**(2026-06-27 实跑):
@@ -40,7 +40,7 @@ M4(洋葱中间件/钩子事件/权限即钩子/DockerRuntime/插件/中间件+�
 | `docs/DESIGN.md` | 设计总账:需求 / 决策 / 为什么 / 架构 / IR / 路线图 |
 | `docs/code-guide.md` | 代码讲解(小白向):每个模块是什么、干什么、为什么 |
 | `develop/README.md` + `develop/M0..M5` | 分阶段开发计划与 TodoList |
-| `framework/src/rein/` | 框架源码 |
+| `src/rein/` | 框架源码 |
 
 ---
 
@@ -106,7 +106,7 @@ M4(洋葱中间件/钩子事件/权限即钩子/DockerRuntime/插件/中间件+�
 ## 8. 环境与常用命令
 
 - Python 3.14.6(`/opt/homebrew`)、虚拟环境 `.venv`。依赖已装:pydantic 2.13.4 / anyio 4.14.1 / pytest 9.1.1。
-- 装依赖:`.venv/bin/python -m pip install -e "./framework[dev]"`(核心 pydantic+anyio;litellm 走 extras,M0 不装)。
+- 装依赖:`.venv/bin/python -m pip install -e ".[dev]"`(核心 pydantic+anyio;litellm 走 extras,M0 不装)。
   ⚠️ 本机 `uv` 命令曾不稳定(输出被吞、装不上),统一用 `.venv/bin/python -m ...`。
 - 跑测试:`.venv/bin/python -m pytest framework/tests -q`。
 - 核实文件:`ls -la 目标目录` 或 `wc -c 文件`(最可靠的真相来源)。

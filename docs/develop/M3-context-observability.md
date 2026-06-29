@@ -20,7 +20,7 @@
 1. ✅ 上下文超过 token 阈值时自动压缩(默认摘要式:旧轮折叠为摘要,保留近期原文),压缩后 loop 正常继续。
 2. ✅ 压缩产物仍可序列化(不破坏 M2 的恢复能力)。
 3. ✅ `RunResult.steps` 信息完整(每步模型/工具、耗时、token、错误),可作为「可回放运行记录」。
-4. ✅ 可选 `pip install rein[otel]` 后,把运行记录导出到 OpenTelemetry / Langfuse。
+4. ✅ 可选 `pip install rein-agent[otel]` 后,把运行记录导出到 OpenTelemetry / Langfuse。
 
 ---
 
@@ -40,7 +40,7 @@
 - [x] 压缩后可序列化 / 可恢复回归测试(含「压缩 + ask resume 共存」)
 - [x] `RunResult.elapsed_s` + `Step.duration_s`(工具步)字段补全;Step 已含 token/错误明细
 - [x] OTel exporter(`otel.py`,extras,延迟 import):trace=run 父 span,span=每步子 span
-- [x] 可观测导出冒烟测试(`test_otel.py`,默认 skip,需 `rein[otel]`)
+- [x] 可观测导出冒烟测试(`test_otel.py`,默认 skip,需 `rein-agent[otel]`)
 - [x] 更新 README / document / handoff / code-guide / memory 进度
 
 ---

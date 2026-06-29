@@ -3,7 +3,7 @@
 一条命令起一个能直接跑的项目。
 
 ```bash
-pip install "rein[cli]"
+pip install "rein-agent[cli]"
 ```
 
 ## rein new

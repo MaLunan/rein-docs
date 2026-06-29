@@ -61,4 +61,4 @@ export_run(result)        # 用全局 tracer;或 export_run(result, tracer=my_tr
 ```
 
 !!! note "OTel 走 extras,绝不进核心"
-    `pip install "rein[otel]"` 才需要。可观测分两层:「产出结构化数据」是核心(人人都有);「导出到某后端」是 adapter(谁要谁装)。
+    `pip install "rein-agent[otel]"` 才需要。可观测分两层:「产出结构化数据」是核心(人人都有);「导出到某后端」是 adapter(谁要谁装)。

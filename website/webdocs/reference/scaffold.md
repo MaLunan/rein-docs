@@ -51,7 +51,7 @@ available_templates()   # ['minimal', 'coder']
 
 ## CLI 命令
 
-装 `pip install "rein[cli]"` 后:
+装 `pip install "rein-agent[cli]"` 后:
 
 ```bash
 rein new <name> [--template minimal|coder]   # 生成项目

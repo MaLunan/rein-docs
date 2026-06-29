@@ -14,7 +14,7 @@
 
 ## 批 1:数据层(项目的"名词")
 
-### `framework/src/rein/ir.py` —— 框架内部的"通用语言"
+### `src/rein/ir.py` —— 框架内部的"通用语言"
 
 **作用**:定义一套全框架通用的数据类型。各家大模型(OpenAI / 通义 / 智谱…)的接口格式都不一样,我们在边界把它们统一翻译成这套类型,核心代码就永远只跟这一套"通用语言"打交道,不用操心厂商差异。
 
@@ -30,7 +30,7 @@
 
 ---
 
-### `framework/src/rein/config.py` —— Loop 的"控制面板"
+### `src/rein/config.py` —— Loop 的"控制面板"
 
 **作用**:控制 agent 的循环怎么跑,核心是**防止它失控烧钱**。
 
@@ -42,7 +42,7 @@
 
 ---
 
-### `framework/src/rein/session.py` —— agent 的"游戏存档"
+### `src/rein/session.py` —— agent 的"游戏存档"
 
 **作用**:装一次任务的**全部状态**。
 
@@ -54,7 +54,7 @@
 
 ---
 
-### `framework/src/rein/result.py` —— 干完活的"结果报告"
+### `src/rein/result.py` —— 干完活的"结果报告"
 
 **作用**:agent 跑完后交给你的报告。
 
@@ -69,7 +69,7 @@
 
 ## 批 2:工具系统(让模型"会用工具")
 
-### `framework/src/rein/tools.py` —— 把普通函数变成"模型能调用的工具"
+### `src/rein/tools.py` —— 把普通函数变成"模型能调用的工具"
 
 **作用**:你写一个普通 Python 函数,这个模块就能把它"包装"成模型能理解、能调用的工具——你几乎不用额外做什么。
 
@@ -85,7 +85,7 @@
 
 ## 批 3:能力层 + 熔断(让 agent"接得上模型、跑得动工具、停得下来")
 
-### `framework/src/rein/providers/` —— 模型接入层(对接各家大模型)
+### `src/rein/providers/` —— 模型接入层(对接各家大模型)
 
 **作用**:负责"把一段对话发给某个大模型,拿回结果"。它是 IR(我们的通用语言)和各家厂商之间唯一的"翻译边界"。
 
@@ -98,7 +98,7 @@
 
 ---
 
-### `framework/src/rein/runtime/` —— 工具执行层(真正去"干活")
+### `src/rein/runtime/` —— 工具执行层(真正去"干活")
 
 **作用**:模型说"我要调 add(2,3)",由 Runtime 真正去执行,把结果变成 `ToolResult` 回填。
 
@@ -114,7 +114,7 @@
 
 ---
 
-### `framework/src/rein/circuit.py` —— 熔断四道闸(agent 的"安全刹车")
+### `src/rein/circuit.py` —— 熔断四道闸(agent 的"安全刹车")
 
 **作用**:agent 最危险的故障是"失控"——死循环狂调工具、烧光预算、卡死不返回。这个模块就是兜底的刹车,loop 每走一步都来问一句"该停了吗?"。
 
@@ -133,7 +133,7 @@
 
 ## 批 4:串联收尾(把零件拼成"能自己跑的 agent")
 
-### `framework/src/rein/loop.py` —— 框架的"心脏"(可序列化单步状态机)
+### `src/rein/loop.py` —— 框架的"心脏"(可序列化单步状态机)
 
 **作用**:把"状态"(Session)和"零件"(模型 / 工具 / 配置)喂进去,一步步推进,直到结束,吐出结果报告。它自己**不存任何状态**——所有状态都在 Session 里进出。
 
@@ -148,7 +148,7 @@
 
 ---
 
-### `framework/src/rein/agent.py` —— 门面(你日常打交道的那一层)
+### `src/rein/agent.py` —— 门面(你日常打交道的那一层)
 
 **作用**:守住"5 行代码就能用"的体验,同时保证**并发安全**。
 
@@ -274,13 +274,13 @@
 
 这份数据本身就是"可回放的运行记录",不依赖任何外部库。
 
-**导出是可选 adapter**(`export_run`,走 extras):把 `RunResult` 翻译成 OpenTelemetry 的 trace——一次 run 是父 span,每个 step 是子 span。这样在 Jaeger / Tempo / Langfuse 里就能看到一次 agent 运行的完整时间线。`opentelemetry` 只在用到时**延迟 import**,没装也不影响核心(`pip install 'rein[otel]'` 才需要)。
+**导出是可选 adapter**(`export_run`,走 extras):把 `RunResult` 翻译成 OpenTelemetry 的 trace——一次 run 是父 span,每个 step 是子 span。这样在 Jaeger / Tempo / Langfuse 里就能看到一次 agent 运行的完整时间线。`opentelemetry` 只在用到时**延迟 import**,没装也不影响核心(`pip install 'rein-agent[otel]'` 才需要)。
 
 **为什么这么写**:可观测分两层——"产出结构化数据"是核心(零依赖、人人都有),"导出到某个后端"是 adapter(谁要谁装)。绝不为了接 OTel 就把 opentelemetry 塞进核心依赖。
 
 ---
 
-> ✅ **M3 代码完成**(上下文压缩:滑窗/摘要;可观测:RunResult 完善 + OTel 导出 adapter,本地单测全绿;OTel 冒烟需 `rein[otel]`)。
+> ✅ **M3 代码完成**(上下文压缩:滑窗/摘要;可观测:RunResult 完善 + OTel 导出 adapter,本地单测全绿;OTel 冒烟需 `rein-agent[otel]`)。
 
 ---
 
@@ -332,7 +332,7 @@ M2 时权限 `ask` 的逻辑写在 `loop.step` 里。M4 把它**搬到一个内�
 
 ---
 
-> ✅ **M4 代码完成**(中间件/钩子/事件 + 权限重构 + DockerRuntime + 插件发现,本地单测全绿;Docker 冒烟需 `rein[docker]`)。
+> ✅ **M4 代码完成**(中间件/钩子/事件 + 权限重构 + DockerRuntime + 插件发现,本地单测全绿;Docker 冒烟需 `rein-agent[docker]`)。
 
 ---
 
@@ -367,7 +367,7 @@ rein dev          # 监听 main.py,改了就自动重启
 
 **刻意不做 `rein run`**:跑项目就是 `python main.py`,不搞多余命令(注意点 2)。
 
-**为什么这么写**:脚手架是开发期工具,走 `rein[cli]` extras(typer),**不进核心依赖**;模板给的是"能跑通的最小例子",不是占位骨架——降低上手门槛,又不背离"极薄"。
+**为什么这么写**:脚手架是开发期工具,走 `rein-agent[cli]` extras(typer),**不进核心依赖**;模板给的是"能跑通的最小例子",不是占位骨架——降低上手门槛,又不背离"极薄"。
 
 ---
 

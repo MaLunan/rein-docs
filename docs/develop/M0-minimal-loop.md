@@ -31,7 +31,7 @@ M0 完成 = 下面**全部**为真:
 1. ✅ `examples/mock_demo.py` 用 `MockProvider` 跑通一个「模型→调用工具→回填→再回答」的完整多轮 loop,**无需任何 API key、无需联网**。
 2. ✅ 「5 行示例」(`examples/minimal.py`)代码成立(有 key 时能真跑;无 key 时能被 mock 测试覆盖)。
 3. ✅ `pytest` 全绿,覆盖:IR 序列化往返、Session 可序列化、schema 生成、工具结果序列化器、loop 多轮编排、工具异常自愈、熔断四道闸、Agent/Session 分离的并发安全。
-4. ✅ `pip install -e ./framework`(仅核心依赖)即可 import `rein` 并跑 mock_demo。
+4. ✅ `pip install -e .`(仅核心依赖)即可 import `rein` 并跑 mock_demo。
 5. ✅ `RunResult` 能 `model_dump_json()` 序列化(含其内嵌 Session),再 `model_validate_json()` 还原。
 
 ---
@@ -60,7 +60,7 @@ M0 完成 = 下面**全部**为真:
 10. **权限 M0 只做 `allow` 与 `deny`**;`ask` 抛 `NotImplementedError("ask 权限将在 M2 实现")`,不要假装支持。
 11. **schema 生成 M0 范围**:支持 `str/int/float/bool/list/dict` + `pydantic.BaseModel` 参数;无默认值=required;docstring 整体作工具 description。`Literal`/复杂泛型留 M1(M0 遇到未知类型降级为 `"string"`,不报错)。
 12. **同轮多工具并发且保序**:`asyncio.gather` 并发执行,结果按原 `tool_calls` 顺序回填。
-13. **核心依赖红线**:`framework/src/rein/` 顶层及核心模块只能 import `pydantic` / `anyio` / 标准库。`litellm` 仅在 provider 内部延迟 import。
+13. **核心依赖红线**:`src/rein/` 顶层及核心模块只能 import `pydantic` / `anyio` / 标准库。`litellm` 仅在 provider 内部延迟 import。
 
 ---
 
@@ -68,27 +68,27 @@ M0 完成 = 下面**全部**为真:
 
 ### 4.1 工程脚手架
 - [x] `pyproject.toml`:src layout;`name="rein"`;核心依赖 `pydantic>=2`、`anyio`;extras `litellm`/`docker`/`otel`/`dev`(pytest, pytest-asyncio/anyio)
-- [x] `pip install -e "./framework[dev]"` 装好开发环境(venv 已建)
+- [x] `pip install -e ".[dev]"` 装好开发环境(venv 已建)
 
 ### 4.2 基础层(IR / 配置 / 状态)
-- [x] `framework/src/rein/ir.py`:`ToolCall` / `ToolResult` / `Message` / `Usage`(含 `__add__`) / `Completion` / `ToolSpec`
-- [x] `framework/src/rein/config.py`:`LoopConfig`(max_iterations / max_tokens / timeout_s / detect_loops / permission)
-- [x] `framework/src/rein/session.py`:`Stage` 枚举(CALL_MODEL/RUN_TOOLS/DONE)+ `Session`(messages / usage / stage / pending_tool_calls / iteration / repeat_count / last_signature / done / stop_reason),全部可序列化
-- [x] `framework/src/rein/result.py`:`Step` / `RunResult`(`__str__`→output)/ `Interrupt`(占位结构,M2 用)
+- [x] `src/rein/ir.py`:`ToolCall` / `ToolResult` / `Message` / `Usage`(含 `__add__`) / `Completion` / `ToolSpec`
+- [x] `src/rein/config.py`:`LoopConfig`(max_iterations / max_tokens / timeout_s / detect_loops / permission)
+- [x] `src/rein/session.py`:`Stage` 枚举(CALL_MODEL/RUN_TOOLS/DONE)+ `Session`(messages / usage / stage / pending_tool_calls / iteration / repeat_count / last_signature / done / stop_reason),全部可序列化
+- [x] `src/rein/result.py`:`Step` / `RunResult`(`__str__`→output)/ `Interrupt`(占位结构,M2 用)
 
 ### 4.3 能力层(工具 / Provider / Runtime)
-- [x] `framework/src/rein/tools.py`:`@tool` 装饰器 / `Tool` / `ToolRegistry` / `build_schema()`(注解→JSON Schema)/ `serialize_result()`(结果文本化)
-- [x] `framework/src/rein/providers/base.py`:`Provider` Protocol(`complete`,stream 留 M1)
-- [x] `framework/src/rein/providers/mock.py`:`MockProvider`(响应列表:`str` 或 `list[ToolCall]`)—— **核心模块**
-- [x] `framework/src/rein/providers/litellm.py`:`LiteLLMProvider`(延迟 import litellm,IR↔litellm 互转)
-- [x] `framework/src/rein/runtime/base.py`:`Runtime` Protocol
-- [x] `framework/src/rein/runtime/local.py`:`LocalRuntime`(执行工具、异常封装、权限 allow/deny、并发保序、同步工具丢线程池)
+- [x] `src/rein/tools.py`:`@tool` 装饰器 / `Tool` / `ToolRegistry` / `build_schema()`(注解→JSON Schema)/ `serialize_result()`(结果文本化)
+- [x] `src/rein/providers/base.py`:`Provider` Protocol(`complete`,stream 留 M1)
+- [x] `src/rein/providers/mock.py`:`MockProvider`(响应列表:`str` 或 `list[ToolCall]`)—— **核心模块**
+- [x] `src/rein/providers/litellm.py`:`LiteLLMProvider`(延迟 import litellm,IR↔litellm 互转)
+- [x] `src/rein/runtime/base.py`:`Runtime` Protocol
+- [x] `src/rein/runtime/local.py`:`LocalRuntime`(执行工具、异常封装、权限 allow/deny、并发保序、同步工具丢线程池)
 
 ### 4.4 核心层(熔断 / Loop / 装配)
-- [x] `framework/src/rein/circuit.py`:`check_circuit(session, config, start_time) -> stop_reason | None`(四道闸 + 签名计算)
-- [x] `framework/src/rein/loop.py`:`step()`(按 stage 推进一步)+ `run()`(驱动循环 + 熔断/取消检查 + 产出 RunResult)
-- [x] `framework/src/rein/agent.py`:`Agent`(无状态蓝图,`@tool`,`run/arun`,延迟/可注入 provider)+ `Chat`(会话句柄,持有 Session)
-- [x] `framework/src/rein/__init__.py`:导出 `Agent` / `tool` / `LoopConfig` / `RunResult` / `MockProvider` / IR 类型
+- [x] `src/rein/circuit.py`:`check_circuit(session, config, start_time) -> stop_reason | None`(四道闸 + 签名计算)
+- [x] `src/rein/loop.py`:`step()`(按 stage 推进一步)+ `run()`(驱动循环 + 熔断/取消检查 + 产出 RunResult)
+- [x] `src/rein/agent.py`:`Agent`(无状态蓝图,`@tool`,`run/arun`,延迟/可注入 provider)+ `Chat`(会话句柄,持有 Session)
+- [x] `src/rein/__init__.py`:导出 `Agent` / `tool` / `LoopConfig` / `RunResult` / `MockProvider` / IR 类型
 
 ### 4.5 示例与测试
 - [x] `examples/mock_demo.py`:MockProvider 驱动多轮工具调用(无 key 可跑)

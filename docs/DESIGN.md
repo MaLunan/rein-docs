@@ -170,8 +170,8 @@ print(agent.run("读 README 并总结"))   # 守住 5 行
 ### 需求 10 —— 安装轻、好上手
 
 - **【需求】** `pip install` 就能开始,不被一堆重依赖劝退。
-- **【决策】** 核心只依赖 `pydantic` + `anyio`;`litellm` / `docker` / `otel` 全走 extras。
-- **【为什么】** 主打「薄」却拖一堆重依赖自相矛盾。`pip install rein` 开箱即用(含 MockProvider 可离线跑),真实模型/沙箱/可观测按需 `pip install rein[litellm]` 等。
+- **【决策(已演进)】** 最初核心只依赖 `pydantic` + `anyio`,`litellm` 走 extras;**后来为「装完即接入真实大模型」,把 `litellm` 提升为核心依赖**(`docker` / `otel` / `cli` 仍走 extras)。
+- **【为什么】** 一度坚持「极薄」把 litellm 放 extras,但「装了却用不了真实模型、还要再 `[litellm]`」太绕;权衡后改为「`pip install rein-agent` 装完即用真实模型」。沙箱/可观测/CLI 仍按需 `pip install "rein-agent[docker]"` 等。
 
 ---
 

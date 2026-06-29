@@ -35,7 +35,7 @@
 
 ## 四、TodoList
 
-- [x] Typer CLI 入口(`rein`,`cli.py`;走 `rein[cli]` extras + `[project.scripts]` entry point)
+- [x] Typer CLI 入口(`rein`,`cli.py`;走 `rein-agent[cli]` extras + `[project.scripts]` entry point)
 - [x] `rein new <name> [--template]`:极简起点生成(`scaffold.create_project` 纯函数 + CLI 门面)
 - [x] 模板:`minimal`(5 行)、`coder`(read_file/run_shell 雏形 + permission=ask)
 - [x] `rein dev`:标准库轮询 mtime 热重载 + 给子进程设 REIN_DEV=1(可挂追踪)

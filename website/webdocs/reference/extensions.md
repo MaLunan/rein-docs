@@ -109,7 +109,7 @@ export_run(result)
 ```
 
 !!! note "extras"
-    `pip install "rein[otel]"` 才需要。`opentelemetry` 延迟 import,没装也不影响核心 —— 可观测核心是结构化 `RunResult`,导出只是 adapter。
+    `pip install "rein-agent[otel]"` 才需要。`opentelemetry` 延迟 import,没装也不影响核心 —— 可观测核心是结构化 `RunResult`,导出只是 adapter。
 
 ---
 
