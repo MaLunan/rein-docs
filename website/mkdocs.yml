@@ -1,0 +1,100 @@
+site_name: Rein
+site_description: 5 行代码,把任意大模型变成能调工具、自己循环干活的 agent。
+site_author: Rein
+# site_url / repo_url 发布时填入真实地址
+site_url: https://malunan.github.io/rein/
+repo_url: https://github.com/MaLunan/rein
+
+docs_dir: webdocs
+site_dir: site
+
+theme:
+  name: material
+  language: zh
+  palette:
+    # 浅色
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: 切换到深色
+    # 深色
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: 切换到浅色
+  font:
+    text: Noto Sans SC
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - 首页: index.md
+  - 快速开始: getting-started.md
+  - 核心概念: concepts.md
+  - 指南:
+    - 写工具: guides/tools.md
+    - 多厂商与流式: guides/providers.md
+    - 人工审批与断点续跑: guides/resume.md
+    - 上下文与可观测: guides/context.md
+    - 中间件与扩展: guides/extensions.md
+    - 多 agent 协作: guides/multi-agent.md
+    - 暴露为 A2A 服务: guides/a2a.md
+    - 脚手架 CLI: guides/cli.md
+  - API 参考:
+    - 速查总览: api.md
+    - Agent · Chat · tool: reference/agent.md
+    - 配置 · 状态 · 结果: reference/config-result.md
+    - 统一内部表示 IR: reference/ir.md
+    - 工具系统: reference/tools.md
+    - Provider 模型层: reference/providers.md
+    - Runtime 执行层: reference/runtime.md
+    - 持久化 · 压缩: reference/persistence.md
+    - 扩展 · 可观测 · 插件: reference/extensions.md
+    - 脚手架: reference/scaffold.md
+    - Loop 进阶: reference/loop.md
+  - 设计哲学: design.md
+  - 常见问题: faq.md
+  - 路线图: roadmap.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/MaLunan
+  generator: false
