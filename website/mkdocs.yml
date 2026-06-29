@@ -2,7 +2,7 @@ site_name: Rein
 site_description: 5 行代码,把任意大模型变成能调工具、自己循环干活的 agent。
 site_author: Rein
 # site_url / repo_url 发布时填入真实地址
-site_url: https://malunan.github.io/rein/
+site_url: https://malunan.github.io/rein-docs/
 repo_url: https://github.com/MaLunan/rein
 
 docs_dir: webdocs
