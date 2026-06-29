@@ -77,6 +77,7 @@ nav:
     - 多 agent 协作: guides/multi-agent.md
     - 暴露为 A2A 服务: guides/a2a.md
     - 脚手架 CLI: guides/cli.md
+    - 生产部署实践: guides/production.md
   - API 参考:
     - 速查总览: api.md
     - Agent · Chat · tool: reference/agent.md
