@@ -118,5 +118,5 @@ print(agent.run("今天几号?用工具查。"))
 </p>
 
 <p style="text-align: center;">
-<a href="getting-started.md" class="md-button md-button--primary">5 分钟跑通第一个 agent →</a>
+<a href="getting-started/" class="md-button md-button--primary">5 分钟跑通第一个 agent →</a>
 </p>
