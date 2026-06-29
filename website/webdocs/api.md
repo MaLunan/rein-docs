@@ -86,8 +86,8 @@ RunResult:
 ## Extras
 
 ```bash
-pip install "rein[litellm]"   # 真实厂商模型
-pip install "rein[docker]"    # DockerRuntime 沙箱
-pip install "rein[otel]"      # OpenTelemetry 导出
-pip install "rein[cli]"       # rein new / rein dev
+pip install rein-agent   # 真实厂商模型
+pip install "rein-agent[docker]"    # DockerRuntime 沙箱
+pip install "rein-agent[otel]"      # OpenTelemetry 导出
+pip install "rein-agent[cli]"       # rein new / rein dev
 ```

@@ -15,8 +15,8 @@ Agent("gemini/gemini-2.0-flash")       # Google
 
 业务代码一行不用改。配好对应厂商的环境变量(`ANTHROPIC_API_KEY` / `OPENAI_API_KEY` / …)即可。
 
-!!! note "litellm 是可选依赖"
-    真实调用需要 `pip install "rein[litellm]"`。核心层只依赖 pydantic + anyio,没装 litellm 也能 `import rein`、用 `MockProvider` 跑测试。
+!!! note "litellm 已内置"
+    真实调用需要 `pip install rein-agent`。核心层只依赖 pydantic + anyio,没装 litellm 也能 `import rein`、用 `MockProvider` 跑测试。
 
 ## 测试用 MockProvider(不联网)
 

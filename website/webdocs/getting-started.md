@@ -4,29 +4,19 @@
 
 ## 安装
 
-核心只依赖 `pydantic` + `anyio`,很轻:
-
 ```bash
-# 发布后(目标体验):
-pip install rein
-
-# 现在从源码安装:
-git clone <repo> && cd <repo>
-pip install -e ./framework
+pip install rein-agent
 ```
 
-需要真实调用大模型时,装上 LiteLLM extras:
+装完即可接入真实大模型(100+ 厂商,经 LiteLLM),代码里照常 `import rein`。
 
-```bash
-pip install "rein[litellm]"
-```
+需要额外能力,按需装 extras:
 
 | Extras | 装什么 | 何时需要 |
 |---|---|---|
-| `rein[litellm]` | litellm | 调真实厂商模型 |
-| `rein[docker]` | docker SDK | 用 `DockerRuntime` 沙箱执行工具 |
-| `rein[otel]` | opentelemetry | 把运行记录导出到 OpenTelemetry |
-| `rein[cli]` | typer | 用 `rein new` / `rein dev` 脚手架 |
+| `rein-agent[docker]` | docker SDK | 用 `DockerRuntime` 沙箱执行工具 |
+| `rein-agent[otel]` | opentelemetry | 把运行记录导出到 OpenTelemetry |
+| `rein-agent[cli]` | typer | 用 `rein new` / `rein dev` 脚手架 |
 
 ---
 
@@ -87,7 +77,7 @@ python main.py
 ## 用脚手架起一个项目
 
 ```bash
-pip install "rein[cli]"
+pip install "rein-agent[cli]"
 rein new myagent              # 极简起点:一个 main.py + .env.example
 rein new mybot --template coder   # 带读文件/跑命令工具 + 审批的雏形
 

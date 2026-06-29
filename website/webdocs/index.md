@@ -87,7 +87,7 @@ print(agent.run("今天几号?用工具查。"))
 !!! quote ""
     **机制进核心,实例走扩展,重依赖走 extras。**
 
-- **核心只依赖 `pydantic` + `anyio`**。litellm / docker / opentelemetry / typer 全是可选 extras,按需安装,绝不进核心。
+- **核心依赖 `pydantic` + `anyio` + `litellm`**(装完即接入真实大模型);docker / opentelemetry / typer 仍是按需安装的可选 extras。
 - **可序列化的状态(Session)+ 无状态的推进(loop)**:这一条地基,让暂停、恢复、压缩、中间件全都成立。
 - **不做多 agent 编排 / RAG 大生态**:聚焦把「单 agent harness」这件事做到极致。
 

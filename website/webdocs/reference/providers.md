@@ -83,8 +83,8 @@ from rein import LiteLLMProvider
 p = LiteLLMProvider("anthropic/claude-opus-4-8", temperature=0.7)
 ```
 
-!!! note "延迟 import + extras"
-    `litellm` 只在真正调用时才 import(`pip install "rein[litellm]"`)—— 没装也能 `import rein`、用 MockProvider。真实成本会从 litellm 响应取出填进 `Usage.cost_usd`。
+!!! note "litellm 已内置"
+    `litellm` 是核心依赖(`pip install rein-agent` 自带),在真正调用时 import;离线可用 MockProvider。真实成本会从 litellm 响应取出填进 `Usage.cost_usd`。
     一般不直接构造它:`Agent("厂商/模型")` 会在首次运行时自动懒建。
 
 ---

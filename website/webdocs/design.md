@@ -12,7 +12,7 @@ Rein 不是一份纯技术规格,而是一连串「把大而全砍成极薄」�
 
 ### 1. 机制进核心,实例走扩展,重依赖走 extras
 
-- **核心只依赖 `pydantic` + `anyio`**。litellm / docker / opentelemetry / typer 全是可选 extras。
+- **核心依赖 `pydantic` + `anyio` + `litellm`**(`pip install rein-agent` 装完即接入真实大模型);docker / opentelemetry / typer 仍是可选 extras。
 - 提供的是**机制**(loop 引擎、中间件调度、Provider/Runtime 协议),而不是预先塞满一堆内置功能。你用这些小而正交的机制拼出任意行为。
 
 ### 2. 可序列化的状态 + 无状态的推进
